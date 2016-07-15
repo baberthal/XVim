@@ -27,6 +27,20 @@
     [super didEndHandler];
 }
 
+- (XVimEvaluator*)e{
+    XVimMotion *motion = XVIM_MAKE_MOTION(MOTION_END_OF_WORD_BACKWARD, CHARACTERWISE_EXCLUSIVE, MOTION_OPTION_NONE, self.numericArg);
+    [[self sourceView] xvim_move:motion];
+    [self.parent resetNumericArg];
+    return [XVimEvaluator popEvaluator];
+}
+
+- (XVimEvaluator*)E{
+    XVimMotion *motion = XVIM_MAKE_MOTION(MOTION_END_OF_WORD_BACKWARD, CHARACTERWISE_EXCLUSIVE, BIGWORD, self.numericArg);
+    [[self sourceView] xvim_move:motion];
+    [self.parent resetNumericArg];
+    return [XVimEvaluator popEvaluator];
+}
+
 - (XVimEvaluator *)f{
     [self.window errorMessage:@"{visual}gf unimplemented" ringBell:NO];
     return [XVimEvaluator popEvaluator];
@@ -45,6 +59,20 @@
     XVimMotion *motion = XVIM_MAKE_MOTION(MOTION_LINENUMBER, CHARACTERWISE_EXCLUSIVE, MOTION_OPTION_NONE, 1);
     motion.line = self.numericArg;
     [[self sourceView] xvim_move:motion];
+    return [XVimEvaluator popEvaluator];
+}
+
+- (XVimEvaluator*)j{
+    XVimMotion *motion = XVIM_MAKE_MOTION(MOTION_LINE_FORWARD, CHARACTERWISE_EXCLUSIVE, DISPLAY_LINE, self.numericArg);
+    [[self sourceView] xvim_move:motion];
+    [self.parent resetNumericArg];
+    return [XVimEvaluator popEvaluator];
+}
+
+- (XVimEvaluator*)k{
+    XVimMotion *motion = XVIM_MAKE_MOTION(MOTION_LINE_BACKWARD, CHARACTERWISE_EXCLUSIVE, DISPLAY_LINE, self.numericArg);
+    [[self sourceView] xvim_move:motion];
+    [self.parent resetNumericArg];
     return [XVimEvaluator popEvaluator];
 }
 
